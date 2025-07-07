@@ -1,4 +1,5 @@
 import React, {createContext, useContext, useState, useEffect} from 'react';
+import BitCraftAPI from '../services/BitCraftAPI';
 
 interface WorldMap {
   id: string;
@@ -78,20 +79,8 @@ export const BitCraftProvider: React.FC<{children: React.ReactNode}> = ({
       setIsLoading(true);
       setError(null);
       
-      // TODO: Implement actual BitCraft API call
-      // For now, simulate world map data
-      const mockWorldMap: WorldMap = {
-        id: '1',
-        name: 'BitCraft World',
-        size: {
-          width: 1000,
-          height: 1000,
-        },
-        claims: [],
-        resources: [],
-      };
-
-      setWorldMap(mockWorldMap);
+      const worldMapData = await BitCraftAPI.getWorldMap();
+      setWorldMap(worldMapData);
     } catch (error) {
       setError('Failed to fetch world map');
       console.error('Error fetching world map:', error);
